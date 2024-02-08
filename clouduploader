@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# A script that will create a resource group in Azure
+
+setup() { 
+    # Install az cli
+    curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+    # Login
+    az login --use-device-code
+    echo "You're logged in."
+}
+
+FileName="$1"
+
+echo "Filename is: $FileName"
