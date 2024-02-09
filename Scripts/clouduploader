@@ -17,6 +17,7 @@ setup() {
     echo "You're logged in."
 }
 
+#Function to check the existance of the file to upload
 check-file()
 {
     if [ -f "$FileName" ];
