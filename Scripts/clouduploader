@@ -1,0 +1,50 @@
+#!/bin/bash
+
+# A script that will upload a file to an azure storage container
+
+FileName="$1"
+FileExists="False"
+StorageAccount="ahclouduploadercli"
+Container="ahcloudcontainer"
+
+echo "The file to upload is: $FileName"
+
+setup() { 
+    # Install az cli
+    curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+    # Login
+    az login --use-device-code
+    echo "You're logged in."
+}
+
+check-file()
+{
+    if [ -f "$FileName" ];
+    then
+        echo "File exists and can be uploaded, proceeding to login step"
+        FileExists="True"
+    else
+        echo "File does not exist, can not be uploaded"
+    fi
+}
+
+#Main Body of the Script
+
+echo "Welcome to the cloud Uploader Program!"
+
+#Verifying if the file to be uploaded can be found in the current directory
+check-file
+
+echo "FileExists=$FileExists"
+
+if [[ "$FileExists" == "True" ]];
+then
+    echo "Iniating login"
+    # setup
+    echo "Iniating File Upload"
+    az storage blob upload --file $FileName --container-name $Container --account-name $StorageAccount --auth-mode login
+    echo "File Upload Completed"
+else
+    echo "Unable to find $FileName, can't proceed"
+fi 
+
