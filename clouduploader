@@ -1,6 +1,12 @@
 #!/bin/bash
 
-# A script that will create a resource group in Azure
+# A script that will upload a file to an azure storage container
+
+FileName="$1"
+StorageAccount="ahclouduploadercli"
+Container="ahcloudcontainer"
+
+echo "The file to upload is: $FileName"
 
 setup() { 
     # Install az cli
@@ -10,6 +16,6 @@ setup() {
     echo "You're logged in."
 }
 
-FileName="$1"
+setup
 
-echo "Filename is: $FileName"
+az storage blob upload --file $FileName --container-name $Container --account-name $StorageAccount --auth-mode login
